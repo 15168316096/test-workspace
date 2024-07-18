@@ -1,0 +1,20 @@
+[workspace]
+resolver = "2"
+
+members = [
+  # Please don't remove the following line, we use it to automatically
+  # detect insertion point for newly generated crates.
+  # @@INSERTION_POINT@@
+  "contracts/c3-sim",
+  "contracts/c2-dbg",
+  "contracts/c1",
+  "tests",
+]
+
+[profile.release]
+overflow-checks = true
+strip = true
+codegen-units = 1
+
+[replace]
+"ckb-testtool:0.12.0" = { path = "/Volumes/workspack/code/ckb/ckb-testtool" }
