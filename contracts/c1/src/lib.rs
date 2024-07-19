@@ -4,3 +4,6 @@
 mod main;
 #[cfg(feature = "simulator")]
 pub use main::program_entry;
+
+#[cfg(feature = "simulator")]
+ckb_std::entry_simulator!(main::program_entry);
