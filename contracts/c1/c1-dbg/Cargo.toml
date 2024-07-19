@@ -13,4 +13,4 @@ crate-type = ["cdylib"]
 
 [workspace]
 [replace]
-"ckb-std:0.15.3" = { path = "/Volumes/workspack/code/ckb/ckb-std" }
+"ckb-std:0.15.3" = { git = "https://github.com/joii2020/ckb-std.git", branch = "dev3" }

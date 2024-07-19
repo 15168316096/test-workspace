@@ -17,4 +17,4 @@ strip = true
 codegen-units = 1
 
 [replace]
-"ckb-testtool:0.12.0" = { path = "/Volumes/workspack/code/ckb/ckb-testtool" }
+"ckb-testtool:0.12.0" = { git = "https://github.com/joii2020/ckb-testtool.git", branch = "main" }
