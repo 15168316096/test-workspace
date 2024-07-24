@@ -73,6 +73,10 @@ cargo:
 
 clean:
 	cargo clean
+	@set -eu; \
+	if [ -d "c3-sim-dbg" ]; then \
+		cd c3-sim-dbg && cargo clean; \
+	fi
 
 prepare:
 	rustup target add riscv64imac-unknown-none-elf

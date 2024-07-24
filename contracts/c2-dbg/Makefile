@@ -73,6 +73,10 @@ cargo:
 
 clean:
 	cargo clean
+	@set -eu; \
+	if [ -d "c2-dbg-dbg" ]; then \
+		cd c2-dbg-dbg && cargo clean; \
+	fi
 
 prepare:
 	rustup target add riscv64imac-unknown-none-elf
