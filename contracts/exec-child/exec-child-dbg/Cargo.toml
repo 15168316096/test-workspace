@@ -1,0 +1,21 @@
+[package]
+name = "exec-child-dbg"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[dependencies]
+exec-child = { path = "../", features = ["simulator"] }
+ckb-std = { version = "0.15.1", features = ["simulator"] }
+
+[lib]
+crate-type = ["cdylib"]
+
+[workspace]
+
+[replace]
+"ckb-std:0.15.3" = { git="https://github.com/nervosnetwork/ckb-std.git", branch="master" }
+"ckb-x64-simulator:0.8.0" = { git="https://github.com/joii2020/ckb-x64-simulator.git", branch="main" }
+
+# "ckb-std:0.15.3" = { path = "../../../deps/ckb-std" }
+# "ckb-x64-simulator:0.8.0" = { path = "../../../deps/ckb-x64-simulator" }

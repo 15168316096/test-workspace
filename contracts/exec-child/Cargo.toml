@@ -1,0 +1,10 @@
+[package]
+name = "exec-child"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+ckb-std = "0.15.1"
+
+[features]
+simulator = ["ckb-std/simulator"]
