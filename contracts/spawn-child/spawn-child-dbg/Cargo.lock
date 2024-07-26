@@ -356,21 +356,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "0d6ef0072f8a535281e4876be788938b528e9a1d43900b82c2569af7da799125"
 
 [[package]]
-name = "exec-parent"
-version = "0.1.0"
-dependencies = [
- "ckb-std 0.15.3 (registry+https://github.com/rust-lang/crates.io-index)",
-]
-
-[[package]]
-name = "exec-parent-dbg"
-version = "0.1.0"
-dependencies = [
- "ckb-std 0.15.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "exec-parent",
-]
-
-[[package]]
 name = "faster-hex"
 version = "0.6.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -635,6 +620,21 @@ name = "siphasher"
 version = "0.3.11"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "38b58827f4464d87d377d175e90bf58eb00fd8716ff0a62f80356b5e61555d0d"
+
+[[package]]
+name = "spawn-child"
+version = "0.1.0"
+dependencies = [
+ "ckb-std 0.15.3 (registry+https://github.com/rust-lang/crates.io-index)",
+]
+
+[[package]]
+name = "spawn-child-dbg"
+version = "0.1.0"
+dependencies = [
+ "ckb-std 0.15.3 (registry+https://github.com/rust-lang/crates.io-index)",
+ "spawn-child",
+]
 
 [[package]]
 name = "syn"

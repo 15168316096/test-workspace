@@ -79,3 +79,6 @@ fn test_exec() {
         .verify_tx(&tx, MAX_CYCLES)
         .expect("pass verification");
 }
+
+#[test]
+fn test_spanw() {}

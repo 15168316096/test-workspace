@@ -1,11 +1,11 @@
 [package]
-name = "exec-parent-dbg"
+name = "spawn-parent-dbg"
 version = "0.1.0"
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 [dependencies]
-exec-parent = { path = "../", features = ["simulator"] }
+spawn-parent = { path = "../", features = ["simulator"] }
 ckb-std = { version = "0.15.1", features = ["simulator"] }
 
 [lib]
