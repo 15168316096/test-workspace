@@ -220,6 +220,14 @@ dependencies = [
 [[package]]
 name = "ckb-std"
 version = "0.15.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "9357d9464ed36a8e542a7d588e894aff25ccb0cdd66221ac94e76bc69ca3ad55"
+replace = "ckb-std 0.15.3 (git+https://github.com/nervosnetwork/ckb-std.git?branch=master)"
+
+[[package]]
+name = "ckb-std"
+version = "0.15.3"
+source = "git+https://github.com/nervosnetwork/ckb-std.git?branch=master#11faaa80c831b03dae5bb7ff95dcf672dbc2bb68"
 dependencies = [
  "buddy-alloc",
  "cc",
@@ -227,13 +235,6 @@ dependencies = [
  "ckb-x64-simulator 0.8.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "gcd",
 ]
-
-[[package]]
-name = "ckb-std"
-version = "0.15.3"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9357d9464ed36a8e542a7d588e894aff25ccb0cdd66221ac94e76bc69ca3ad55"
-replace = "ckb-std 0.15.3"
 
 [[package]]
 name = "ckb-traits"
@@ -273,6 +274,14 @@ dependencies = [
 [[package]]
 name = "ckb-x64-simulator"
 version = "0.8.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "e10ecef7cf93eb5175519b335d31db6d51cdf55276d7fbb8955bbd10e26eb847"
+replace = "ckb-x64-simulator 0.8.0 (git+https://github.com/joii2020/ckb-x64-simulator.git?branch=main)"
+
+[[package]]
+name = "ckb-x64-simulator"
+version = "0.8.0"
+source = "git+https://github.com/joii2020/ckb-x64-simulator.git?branch=main#c509a25d983854655c7047511b00e97d08d4f431"
 dependencies = [
  "cc",
  "ckb-mock-tx-types",
@@ -285,13 +294,6 @@ dependencies = [
  "serde_derive",
  "serde_json",
 ]
-
-[[package]]
-name = "ckb-x64-simulator"
-version = "0.8.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e10ecef7cf93eb5175519b335d31db6d51cdf55276d7fbb8955bbd10e26eb847"
-replace = "ckb-x64-simulator 0.8.0"
 
 [[package]]
 name = "ckb_schemars"

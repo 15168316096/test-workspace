@@ -18,10 +18,6 @@ strip = true
 codegen-units = 1
 
 [replace]
-# "ckb-std:0.15.3" = { git = "https://github.com/nervosnetwork/ckb-std.git", branch = "master" }
-# "ckb-x64-simulator:0.8.0" = { git = "https://github.com/joii2020/ckb-x64-simulator.git", branch = "main" }
-# "ckb-testtool:0.12.0" = { git = "https://github.com/joii2020/ckb-testtool.git", branch = "main" }
-
-"ckb-testtool:0.12.0" = { path = "deps/ckb-testtool" }
-"ckb-std:0.15.3" = { path = "deps/ckb-std" }
-"ckb-x64-simulator:0.8.0" = { path = "deps/ckb-x64-simulator" }
+"ckb-std:0.15.3" = { git = "https://github.com/nervosnetwork/ckb-std.git", branch = "master" }
+"ckb-x64-simulator:0.8.0" = { git = "https://github.com/joii2020/ckb-x64-simulator.git", branch = "main" }
+"ckb-testtool:0.12.0" = { git = "https://github.com/joii2020/ckb-testtool.git", branch = "main" }
