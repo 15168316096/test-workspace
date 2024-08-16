@@ -1,0 +1,32 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Build",
+            "type": "shell",
+            "command": "make build"
+        },
+        {
+            "label": "StartDbg-exec-parent",
+            "isBackground": true,
+            "type": "process",
+            "command": "ckb-debugger",
+            "args": [
+                "--bin=build/debug/exec-parent",
+                "--mode=gdb_gdbstub",
+                "--gdb-listen=127.0.0.1:8000"
+            ],
+            // "command": "./scripts/start-ckb-debugger build/debug/exec-parent",
+            "options": {
+                "cwd": "${workspaceRoot}"
+            },
+        },
+        {
+            "label": "StopCkbDebugger",
+            "type": "shell",
+            "command": "killall ckb-debugger || true"
+        },
+    ],
+}
