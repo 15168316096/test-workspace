@@ -44,9 +44,6 @@ build:
 		done \
 	fi
 
-build-simulator:
-	cd spawn-parent-dbg && cargo build && cp target/debug/*_dbg.* $(TOP)/$(BUILD_DIR)
-
 # test, check, clippy and fmt here are provided for completeness,
 # there is nothing wrong invoking cargo directly instead of make.
 test:
@@ -73,10 +70,6 @@ cargo:
 
 clean:
 	cargo clean
-	@set -eu; \
-	if [ -d "spawn-parent-dbg" ]; then \
-		cd spawn-parent-dbg && cargo clean; \
-	fi
 
 prepare:
 	rustup target add riscv64imac-unknown-none-elf

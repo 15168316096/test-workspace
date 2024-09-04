@@ -48,15 +48,18 @@ build:
 		$(MAKE) -e -C contracts/$(CONTRACT) build; \
 	fi
 
-build-simulator: build
-	mkdir -p $(BUILD_DIR)
-	@set -eu; \
-	if [ "x$(CONTRACT)" = "x" ]; then \
-		for contract in $(wildcard contracts/*); do \
-			$(MAKE) -e -C $$contract build-simulator; \
-		done; \
+build-simulator:
+	@set -eu;\
+	if [ ! -d native-simulators ] || [ -z "$$(ls -A native-simulators)" ]; then \
+		echo "There is no native-simulator to compile."; \
+		echo "If necessary, please use:"; \
+		echo "make generate-native-simulator CRATE=<existing contract>"; \
 	else \
-		$(MAKE) -e -C contracts/$(CONTRACT) build-simulator; \
+		mkdir -p $(BUILD_DIR); \
+		for sim in $(wildcard native-simulators/*); do \
+			cd $$sim && cargo build && cd ../..; \
+		done; \
+		cp target/debug/*_sim.* $(BUILD_DIR); \
 	fi
 
 # Run a single make task for a specific contract. For example:
@@ -93,51 +96,57 @@ cargo:
 clean:
 	rm -rf build
 	cargo clean
-	@set -eu; \
-	cd contracts; \
-	for dir in * ; do \
-		if [ -d $$dir/$$dir-dbg ]; then \
-			(cd $$dir/$$dir-dbg && cargo clean); \
-		fi \
-	done
 
 TEMPLATE_TYPE := --git
 TEMPLATE_REPO := https://github.com/cryptape/ckb-script-templates
 CRATE :=
 TEMPLATE := contract
 DESTINATION := contracts
-ALSO_ADD_DEBUGGER := true
 generate:
 	@set -eu; \
 	if [ "x$(CRATE)" = "x" ]; then \
 		cargo generate $(TEMPLATE_TYPE) $(TEMPLATE_REPO) $(TEMPLATE) \
 			--destination $(DESTINATION); \
 		GENERATED_DIR=$$(ls -dt $(DESTINATION)/* | head -n 1); \
+		if [ -f "$$GENERATED_DIR/.cargo-generate/tests.rs" ]; then \
+			cat $$GENERATED_DIR/.cargo-generate/tests.rs >> tests/src/tests.rs; \
+			rm -rf $$GENERATED_DIR/.cargo-generate/; \
+		fi; \
 		sed "s,@@INSERTION_POINT@@,@@INSERTION_POINT@@\n  \"$$GENERATED_DIR\"\,," Cargo.toml > Cargo.toml.new; \
 		mv Cargo.toml.new Cargo.toml; \
-		if [ "$(ALSO_ADD_DEBUGGER)" = "true" ] && [ "$(TEMPLATE)" = "contract" ]; then \
-			echo "Generate native simulator debugger"; \
-			scripts/add-debugger $${GENERATED_DIR#$(DESTINATION)/} $(TEMPLATE_TYPE) $(TEMPLATE_REPO); \
-		fi; \
 	else \
 		cargo generate $(TEMPLATE_TYPE) $(TEMPLATE_REPO) $(TEMPLATE) \
 			--destination $(DESTINATION) \
 			--name $(CRATE); \
+		if [ -f "$(DESTINATION)/$(CRATE)/.cargo-generate/tests.rs" ]; then \
+			cat $(DESTINATION)/$(CRATE)/.cargo-generate/tests.rs >> tests/src/tests.rs; \
+			rm -rf $(DESTINATION)/$(CRATE)/.cargo-generate/; \
+		fi; \
 		sed '/@@INSERTION_POINT@@/s/$$/\n  "$(DESTINATION)\/$(CRATE)",/' Cargo.toml > Cargo.toml.new; \
 		mv Cargo.toml.new Cargo.toml; \
-		if [ "$(ALSO_ADD_DEBUGGER)" = "true" ] && [ "$(TEMPLATE)" = "contract" ]; then \
-			echo "Generate native simulator debugger"; \
-			scripts/add-debugger $(CRATE) $(TEMPLATE_TYPE) $(TEMPLATE_REPO); \
-		fi; \
 	fi;
 
-add-debugger:
+generate-native-simulator:
 	@set -eu; \
-	if [ "x$(CRATE)" = "x" ]; then \
-		scripts/add-debugger _ $(TEMPLATE_TYPE) $(TEMPLATE_REPO); \
+	cargo generate $(TEMPLATE_TYPE) $(TEMPLATE_REPO) native-simulator \
+		-n $(CRATE)-sim \
+		--destination native-simulators \
+		-d contract_name=$(CRATE) \
+		-d contract_crate_name=`echo "$(CRATE)" | tr '-' '_'`; \
+	mv native-simulators/$(CRATE)-sim/src/contract-lib.rs contracts/$(CRATE)/src/lib.rs; \
+	FILE=contracts/$(CRATE)/Cargo.toml; \
+	if grep -q "\\[features\\]" "$$FILE"; then \
+		sed -i '/\[features\]/a\\simulator = \[\"ckb-std/simulator\"\]' $$FILE; \
 	else \
-		scripts/add-debugger $(CRATE) $(TEMPLATE_TYPE) $(TEMPLATE_REPO); \
-	fi
+		echo "\\n[features]\\nsimulator = [\"ckb-std/simulator\"]\\n" >> $$FILE ; \
+	fi; \
+	FILE=contracts/$(CRATE)/src/main.rs; \
+	sed -i 's/#!\[no_std\]/#!\[cfg_attr(not(feature = "simulator"), no_std)\]/' $$FILE; \
+	sed -i 's/#!\[cfg_attr(not(test), no_main)\]/#!\[cfg_attr(not(any(feature = "simulator", test)), no_main)\]/' $$FILE; \
+	sed -i 's/#\[cfg(test)\]/#\[cfg(any(feature = "simulator", test))\]/' $$FILE; \
+	sed -i 's/#\[cfg(not(test))\]/#\[cfg(not(any(feature = "simulator", test)))\]/' $$FILE; \
+	sed '/@@INSERTION_POINT@@/s/$$/\n  "native-simulators\/$(CRATE)-sim",/' Cargo.toml > Cargo.toml.new; \
+	mv Cargo.toml.new Cargo.toml;
 
 prepare:
 	rustup target add riscv64imac-unknown-none-elf

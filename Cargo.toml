@@ -5,6 +5,10 @@ members = [
   # Please don't remove the following line, we use it to automatically
   # detect insertion point for newly generated crates.
   # @@INSERTION_POINT@@
+  "native-simulators/spawn-child-sim",
+  "native-simulators/spawn-parent-sim",
+  "native-simulators/exec-child-sim",
+  "native-simulators/exec-parent-sim",
   "contracts/spawn-child",
   "contracts/spawn-parent",
   "contracts/exec-child",
@@ -17,5 +21,11 @@ overflow-checks = true
 strip = true
 codegen-units = 1
 
+[profile.ckb-debug]
+inherits = "release"
+strip = false
+debug = true
+
+# TODO: Will be deleted after release
 [replace]
-"ckb-std:0.15.3" = { git = "https://github.com/nervosnetwork/ckb-std.git", branch = "master" }
+"ckb-std:0.15.3" = { git = "https://github.com/nervosnetwork/ckb-std.git", rev = "36942aa" }
