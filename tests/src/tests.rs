@@ -88,7 +88,7 @@ fn test_exec() {
 }
 
 #[test]
-fn test_spanw() {
+fn test_spawn() {
     let mut context = Context::default();
     let out_point_parent = context.deploy_cell_by_name("spawn-parent");
     let out_point_child = context.deploy_cell_by_name("spawn-child");
