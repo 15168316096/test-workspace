@@ -1,5 +1,5 @@
 #![cfg_attr(not(feature = "simulator"), no_std)]
-#![cfg_attr(not(any(feature = "simulator", test)), no_main)]
+#![cfg_attr(not(test), no_main)]
 
 #[cfg(any(feature = "simulator", test))]
 extern crate alloc;
@@ -43,9 +43,9 @@ pub fn program_entry() -> i8 {
 
         let rc = ckb_std::high_level::exec_cell(&args[..32], hash_type, &[arg1, arg2]).unwrap_err();
         debug!("exec_cell faield: {:?}", rc);
-        return 3;
+        3
     } else {
         debug!("load script failed");
-        return 4;
+        4
     }
 }
