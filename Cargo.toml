@@ -18,14 +18,12 @@ members = [
 
 [profile.release]
 overflow-checks = true
-strip = true
-codegen-units = 1
-
-[profile.ckb-debug]
-inherits = "release"
 strip = false
+codegen-units = 1
 debug = true
 
 # TODO: Will be deleted after release
 [replace]
-"ckb-std:0.15.3" = { git = "https://github.com/nervosnetwork/ckb-std.git", rev = "36942aa" }
+# "ckb-std:0.15.3" = { git = "https://github.com/nervosnetwork/ckb-std.git", rev = "36942aa" }
+"ckb-std:0.15.3" = { path = "deps/ckb-std" }
+"ckb-testtool:0.13.0" = { path = "deps/ckb-testtool" }

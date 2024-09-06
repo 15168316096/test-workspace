@@ -1,7 +1,7 @@
-#![cfg_attr(not(feature = "simulator"), no_std)]
+#![cfg_attr(not(feature = "native-simulator"), no_std)]
 #![allow(special_module_name)]
 #![allow(unused_attributes)]
-#[cfg(feature = "simulator")]
+#[cfg(feature = "native-simulator")]
 mod main;
-#[cfg(feature = "simulator")]
+#[cfg(feature = "native-simulator")]
 pub use main::program_entry;

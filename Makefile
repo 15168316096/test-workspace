@@ -125,14 +125,14 @@ generate-native-simulator:
 	mv native-simulators/$(CRATE)-sim/src/contract-lib.rs contracts/$(CRATE)/src/lib.rs; \
 	FILE=contracts/$(CRATE)/Cargo.toml; \
 	if grep -q "\\[features\\]" "$$FILE"; then \
-		sed -i '/\[features\]/a\\simulator = \[\"ckb-std/simulator\"\]' $$FILE; \
+		sed -i '/\[features\]/a\\native-simulator = \[\"ckb-std/native-simulator\"\]' $$FILE; \
 	else \
-		echo "\\n[features]\\nsimulator = [\"ckb-std/simulator\"]\\n" >> $$FILE ; \
+		echo "\\n[features]\\nnative-simulator = [\"ckb-std/native-simulator\"]\\n" >> $$FILE ; \
 	fi; \
 	FILE=contracts/$(CRATE)/src/main.rs; \
-	sed -i 's/#!\[no_std\]/#!\[cfg_attr(not(feature = "simulator"), no_std)\]/' $$FILE; \
-	sed -i 's/#\[cfg(test)\]/#\[cfg(any(feature = "simulator", test))\]/' $$FILE; \
-	sed -i 's/#\[cfg(not(test))\]/#\[cfg(not(any(feature = "simulator", test)))\]/' $$FILE; \
+	sed -i 's/#!\[no_std\]/#!\[cfg_attr(not(feature = "native-simulator"), no_std)\]/' $$FILE; \
+	sed -i 's/#\[cfg(test)\]/#\[cfg(any(feature = "native-simulator", test))\]/' $$FILE; \
+	sed -i 's/#\[cfg(not(test))\]/#\[cfg(not(any(feature = "native-simulator", test)))\]/' $$FILE; \
 	sed '/@@INSERTION_POINT@@/s/$$/\n  "native-simulators\/$(CRATE)-sim",/' Cargo.toml > Cargo.toml.new; \
 	mv Cargo.toml.new Cargo.toml;
 
