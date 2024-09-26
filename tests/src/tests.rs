@@ -10,12 +10,16 @@ use ckb_testtool::{
     },
     context::Context,
 };
+use spawn_cmd::SpawnCmd;
 
 const MAX_CYCLES: u64 = 500_0000;
 
 #[test]
 fn test_exec() {
     let mut context = Context::default();
+    context.add_contract_dir("../target/debug/");
+    context.add_contract_dir("target/debug/");
+
     let out_point_exec_parent = context.deploy_cell_by_name("exec-parent");
     let out_point_exec_child = context.deploy_cell_by_name("exec-child");
 
@@ -87,28 +91,36 @@ fn test_exec() {
         .expect("pass verification");
 }
 
-#[test]
-fn test_spawn() {
+fn run_spawn(cmd: SpawnCmd, args: &[u8]) {
     let mut context = Context::default();
+    context.add_contract_dir("../target/debug/");
+    context.add_contract_dir("target/debug/");
+
     let out_point_parent = context.deploy_cell_by_name("spawn-parent");
     let out_point_child = context.deploy_cell_by_name("spawn-child");
 
-    let exec_child_code_hash = context
-        .cells
-        .get(&out_point_child)
-        .map(|(_, bin)| CellOutput::calc_data_hash(bin).as_bytes().to_vec())
-        .unwrap();
-    println!("=== exec child code hash: {:02x?}", &exec_child_code_hash);
+    // let exec_child_code_hash = context
+    //     .cells
+    //     .get(&out_point_child)
+    //     .map(|(_, bin)| CellOutput::calc_data_hash(bin).as_bytes().to_vec())
+    //     .unwrap();
+    // println!("=== spawn child code hash: {:02x?}", exec_child_code_hash);
+
+    let args = {
+        let child_code_hash = context
+            .cells
+            .get(&out_point_child)
+            .map(|(_, bin)| CellOutput::calc_data_hash(bin).as_bytes().to_vec())
+            .unwrap();
+
+        vec![vec![cmd.into()], child_code_hash, args.to_vec()].concat()
+    };
 
     let lock_script = context
         .build_script_with_hash_type(&out_point_parent, ScriptHashType::Data2, Default::default())
         .expect("script")
         .as_builder()
-        .args(
-            vec![exec_child_code_hash, vec![ScriptHashType::Data2.into()]]
-                .concat()
-                .pack(),
-        )
+        .args(args.pack())
         .build();
     let input: CellInput = CellInput::new_builder()
         .previous_output(
@@ -156,3 +168,34 @@ fn test_spawn() {
         .verify_tx(&tx, MAX_CYCLES)
         .expect("pass verification");
 }
+
+#[test]
+fn test_spawn_base() {
+    run_spawn(SpawnCmd::Base, &[]);
+}
+
+#[test]
+fn test_spawn_empty_pipe() {
+    run_spawn(SpawnCmd::EmptyPipe, &[]);
+}
+
+#[test]
+fn test_spawn_io1() {
+    run_spawn(SpawnCmd::BaseIO1, &[]);
+}
+
+#[test]
+fn test_spawn_io2() {
+    run_spawn(SpawnCmd::BaseIO2, &[]);
+}
+
+#[test]
+fn test_spawn_io3() {
+    run_spawn(SpawnCmd::BaseIO3, &[]);
+}
+
+// #[test]
+// fn test_multi_spawn() {
+//     run_spawn(SpawnCmd::EmptyPipe, &[]);
+//     run_spawn(SpawnCmd::EmptyPipe, &[]);
+// }
