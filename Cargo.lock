@@ -453,7 +453,8 @@ dependencies = [
 
 [[package]]
 name = "ckb-std"
-version = "0.15.3"
+version = "0.16.0"
+source = "git+https://github.com/joii2020/ckb-std.git?rev=5bd8c01#5bd8c01cb81665aa6b25c59fb59bb8687fed0302"
 dependencies = [
  "buddy-alloc",
  "cc",
@@ -461,13 +462,6 @@ dependencies = [
  "ckb-x64-simulator 0.9.2 (registry+https://github.com/rust-lang/crates.io-index)",
  "gcd",
 ]
-
-[[package]]
-name = "ckb-std"
-version = "0.15.3"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9357d9464ed36a8e542a7d588e894aff25ccb0cdd66221ac94e76bc69ca3ad55"
-replace = "ckb-std 0.15.3"
 
 [[package]]
 name = "ckb-system-scripts"
@@ -491,6 +485,14 @@ checksum = "758eadf691a5e85efcc41927c947f52d924e61837874a8e103d285f4e81e775d"
 [[package]]
 name = "ckb-testtool"
 version = "0.13.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "f39aec2471d611cee13f2e39ef1f5419150ba94bc8fd3a3db520876a6fe0d5d2"
+replace = "ckb-testtool 0.13.1 (git+https://github.com/joii2020/ckb-testtool.git?rev=feac46e)"
+
+[[package]]
+name = "ckb-testtool"
+version = "0.13.1"
+source = "git+https://github.com/joii2020/ckb-testtool.git?rev=feac46e#feac46e82b19fa5c4ee431a0207ec1c816c91e71"
 dependencies = [
  "ckb-always-success-script",
  "ckb-chain-spec",
@@ -510,13 +512,6 @@ dependencies = [
  "rand 0.8.5",
  "serde_json",
 ]
-
-[[package]]
-name = "ckb-testtool"
-version = "0.13.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f39aec2471d611cee13f2e39ef1f5419150ba94bc8fd3a3db520876a6fe0d5d2"
-replace = "ckb-testtool 0.13.1"
 
 [[package]]
 name = "ckb-traits"
@@ -614,9 +609,16 @@ dependencies = [
 [[package]]
 name = "ckb-x64-simulator"
 version = "0.9.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "febfea480f2e1e78d620e243447929fabcc200c647fb1073c692d632af202745"
+replace = "ckb-x64-simulator 0.9.2 (git+https://github.com/joii2020/ckb-x64-simulator.git?rev=24e5295)"
+
+[[package]]
+name = "ckb-x64-simulator"
+version = "0.9.2"
+source = "git+https://github.com/joii2020/ckb-x64-simulator.git?rev=24e5295#24e52955c283c741bb5ec4b9ef3f82a997e2f6e0"
 dependencies = [
  "cc",
- "ckb-hash",
  "ckb-mock-tx-types",
  "ckb-types",
  "faster-hex",
@@ -627,13 +629,6 @@ dependencies = [
  "serde_derive",
  "serde_json",
 ]
-
-[[package]]
-name = "ckb-x64-simulator"
-version = "0.9.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "febfea480f2e1e78d620e243447929fabcc200c647fb1073c692d632af202745"
-replace = "ckb-x64-simulator 0.9.2"
 
 [[package]]
 name = "ckb_schemars"
@@ -769,14 +764,14 @@ dependencies = [
 name = "exec-child"
 version = "0.1.0"
 dependencies = [
- "ckb-std 0.15.3 (registry+https://github.com/rust-lang/crates.io-index)",
+ "ckb-std",
 ]
 
 [[package]]
 name = "exec-child-sim"
 version = "0.1.0"
 dependencies = [
- "ckb-std 0.15.3 (registry+https://github.com/rust-lang/crates.io-index)",
+ "ckb-std",
  "exec-child",
 ]
 
@@ -784,14 +779,14 @@ dependencies = [
 name = "exec-parent"
 version = "0.1.0"
 dependencies = [
- "ckb-std 0.15.3 (registry+https://github.com/rust-lang/crates.io-index)",
+ "ckb-std",
 ]
 
 [[package]]
 name = "exec-parent-sim"
 version = "0.1.0"
 dependencies = [
- "ckb-std 0.15.3 (registry+https://github.com/rust-lang/crates.io-index)",
+ "ckb-std",
  "exec-parent",
 ]
 
@@ -1599,7 +1594,7 @@ dependencies = [
 name = "spawn-child"
 version = "0.1.0"
 dependencies = [
- "ckb-std 0.15.3 (registry+https://github.com/rust-lang/crates.io-index)",
+ "ckb-std",
  "spawn_cmd",
 ]
 
@@ -1607,7 +1602,7 @@ dependencies = [
 name = "spawn-child-sim"
 version = "0.1.0"
 dependencies = [
- "ckb-std 0.15.3 (registry+https://github.com/rust-lang/crates.io-index)",
+ "ckb-std",
  "spawn-child",
 ]
 
@@ -1615,7 +1610,7 @@ dependencies = [
 name = "spawn-parent"
 version = "0.1.0"
 dependencies = [
- "ckb-std 0.15.3 (registry+https://github.com/rust-lang/crates.io-index)",
+ "ckb-std",
  "spawn_cmd",
 ]
 
@@ -1623,7 +1618,7 @@ dependencies = [
 name = "spawn-parent-sim"
 version = "0.1.0"
 dependencies = [
- "ckb-std 0.15.3 (registry+https://github.com/rust-lang/crates.io-index)",
+ "ckb-std",
  "spawn-parent",
 ]
 
