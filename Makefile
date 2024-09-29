@@ -61,7 +61,13 @@ run:
 # test, check, clippy and fmt here are provided for completeness,
 # there is nothing wrong invoking cargo directly instead of make.
 test:
-	cargo test $(CARGO_ARGS)
+	cargo test --package tests --lib -- tests::test_spawn_base --exact
+	cargo test --package tests --lib -- tests::test_spawn_empty_pipe --exact
+	cargo test --package tests --lib -- tests::test_spawn_io1 --exact
+	cargo test --package tests --lib -- tests::test_spawn_io2 --exact
+	cargo test --package tests --lib -- tests::test_spawn_io3 --exact
+
+#	cargo test $(CARGO_ARGS)
 
 check:
 	cargo check $(CARGO_ARGS)

@@ -1,0 +1,24 @@
+name: Rust
+
+on: [push, pull_request]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Install Rust components
+      run: rustup component add rustfmt clippy
+    - name: Install llvm 16
+      run: wget https://apt.llvm.org/llvm.sh && chmod +x llvm.sh && sudo ./llvm.sh 16 && rm llvm.sh
+    - name: Install riscv64 target
+      run: rustup target add riscv64imac-unknown-none-elf
+    - name: Check format
+      run: cargo fmt --all -- --check
+    - name: Build
+      run: make build
+    - name: Run test
+      run: make test
+    
